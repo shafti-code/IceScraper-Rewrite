@@ -48,6 +48,11 @@ public class movementBasics : MonoBehaviour
             Debug.Log("the jump input true");
             rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, jumpHeight);
         }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Debug.Log("the jump input true");
+            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, -1 * jumpHeight);
+        }
 
         speed = rb2D.linearVelocity;
         if (lastSpeed != speed)
