@@ -14,6 +14,7 @@ public class movementBasics : MonoBehaviour
     public Vector2 speed;
     public Vector2 lastSpeed;
     public bool jumpKeyPressed;
+    public bool loadJump;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -38,17 +39,22 @@ public class movementBasics : MonoBehaviour
         }
     }
 
-    bool JumpHandler(){
+    void JumpHandler(){
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W))
         {
             jumpKeyPressed = true;
         }else {
             jumpKeyPressed = false;
         }
-        if (jumpKeyPressed && BufferJump)
-        // to do, handle jumping with buffers and shi foo, maybe refactor the helper funcktios
-            // rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, jumpHeight);
+        if (jumpKeyPressed && BufferJump()){
+            loadJump = true;
+        }
+        if (OnGround && loadJump || OnGround && jumpKeyPressed){
+             rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, jumpHeight);
             //this is the goated jump command that should work once all conditions are met 
+        }
+            
+        // to do, handle jumping with buffers and shi foo, maybe refactor the helper funcktios
     }
 
     void FixedUpdate(){
@@ -67,7 +73,7 @@ public class movementBasics : MonoBehaviour
     {
         currentInput = Input.GetAxisRaw("Horizontal");
 
-
+        JumpHandler();
         if (currentInput != 0)
         {
             rb2D.linearVelocity = new Vector2(currentInput * playerMoveSpeed, rb2D.linearVelocity.y);
